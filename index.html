@@ -1,35 +1,53 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Telegram Pop-up</title>
-    <!-- Include Telegram's Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Optional CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Telegram Pop-up</title>
+  <!-- Include Telegram's Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Optional CSS -->
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>Your Data:</h1>
-        <p id="data"></p>
-        <button onclick="closePopup()">Close</button>
-    </div>
+  <div class="container">
+    <h1>Your Data:</h1>
+    <pre id="data"></pre>
+    <button onclick="closePopup()">Close</button>
+  </div>
 
-    <script>
-        // Initialize Telegram Web App
-Telegram.WebApp.ready();
-  const user = Telegram.WebApp.initDataUnsafe.user; // Basic user info (ID, first name)
-  const queryParams = new URLSearchParams(window.location.search);
-  const ip = queryParams.get('ip'); // Requires backend setup (see below)
-    document.getElementById('data').innerText = ip + ' ' + user;
+  <script>
+    // Signal that the Web App is ready
+    Telegram.WebApp.ready();
 
+    // Safely get user data from the Telegram Web App object
+    const user = Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user;
+    // Get the "ip" parameter from the URL query string (if provided)
+    const queryParams = new URLSearchParams(window.location.search);
+    const ip = queryParams.get('ip');
 
-        // Close the pop-up
-        function closePopup() {
-            Telegram.WebApp.close();
-        }
-    </script>
+    // Prepare a string to display more personal data
+    let userData = "";
+    userData += "IP: " + (ip ? ip : "Not provided") + "\n";
+
+    if (user) {
+      userData += "User ID: " + user.id + "\n";
+      userData += "First Name: " + user.first_name + "\n";
+      if (user.last_name) {
+        userData += "Last Name: " + user.last_name + "\n";
+      }
+      if (user.username) {
+        userData += "Username: " + user.username + "\n";
+      }
+    } else {
+      userData += "User data not available.";
+    }
+
+    // Display the data in the <pre> element
+    document.getElementById('data').innerText = userData;
+
+    // Function to close the pop-up
+    function closePopup() {
+      Telegram.WebApp.close();
+    }
+  </script>
 </body>
-
 </html>
