@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Telegram Pop-up</title>
+    <!-- Include Telegram's Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Optional CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Your Data:</h1>
+        <p id="data"></p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        // Initialize Telegram Web App
+        Telegram.WebApp.ready();
+
+        // Get data from the URL parameter (e.g., ?data=Hello)
+        const params = new URLSearchParams(window.location.search);
+        const data = params.get('data');
+
+        // Display the data
+        document.getElementById('data').innerText = data;
+
+        // Close the pop-up
+        function closePopup() {
+            Telegram.WebApp.close();
+        }
+    </script>
+</body>
+
+</html>
