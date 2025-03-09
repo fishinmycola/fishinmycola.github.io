@@ -18,14 +18,12 @@
 
     <script>
         // Initialize Telegram Web App
-        Telegram.WebApp.ready();
+      
+    Telegram.WebApp.ready();
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get('startapp'); // Используйте startapp, а не data
+    document.getElementById('data').innerText = data || "Данные не переданы";
 
-        // Get data from the URL parameter (e.g., ?data=Hello)
-        const params = new URLSearchParams(window.location.search);
-        const data = params.get('data');
-
-        // Display the data
-        document.getElementById('data').innerText = data;
 
         // Close the pop-up
         function closePopup() {
