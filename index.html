@@ -18,11 +18,11 @@
 
     <script>
         // Initialize Telegram Web App
-      
-    Telegram.WebApp.ready();
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get('startapp'); // Используйте startapp, а не data
-    document.getElementById('data').innerText = data || "Данные не переданы";
+Telegram.WebApp.ready();
+  const user = Telegram.WebApp.initDataUnsafe.user; // Basic user info (ID, first name)
+  const queryParams = new URLSearchParams(window.location.search);
+  const ip = queryParams.get('ip'); // Requires backend setup (see below)
+    document.getElementById('data').innerText = ip + ' ' + user;
 
 
         // Close the pop-up
